@@ -25,7 +25,7 @@ class _TodoPageState extends State<TodoPage> {
   int nextId = 3;
 
   Future<void> openAddPage() async {
-    // TODO 1: вывести список ниже и открыть AddTodoPage через MaterialPageRoute<String>.
+    // TODO 1: собрать список со Slidable и открыть AddTodoPage через MaterialPageRoute<String>.
     // Дождаться String?, проверить mounted и null, добавить TodoItem.
     // Для id используйте nextId++, изменение списка — внутри setState.
   }
@@ -37,17 +37,12 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Мои задачи')),
-    floatingActionButton: FloatingActionButton.extended(
-      onPressed: openAddPage,
-      icon: const Icon(Icons.add),
-      label: const Text('Добавить'),
-    ),
-    // Часть TODO 1: ListView с названием и кнопкой удаления для todos.
-    // Пустой список: «Пока нет задач». Оставьте снизу место для FAB.
-    body: const Center(child: Text('Начните с TODO 1')),
-  );
+  Widget build(BuildContext context) {
+    // Часть TODO 1: Scaffold, AppBar, «Добавить» и ListView делаете сами.
+    // У строки Slidable с устойчивым ключом; свайп показывает «Удалить».
+    // Действие вызывает deleteTodo(todo). Сам свайп ничего не удаляет.
+    return const Scaffold(body: Center(child: Text('Начните с TODO 1')));
+  }
 }
 
 class AddTodoPage extends StatefulWidget {

@@ -27,12 +27,29 @@ void main() {
   }
 
   Future<void> askDelete(WidgetTester tester, Finder tile) async {
-    await tester.tap(
-      find.descendant(of: tile, matching: find.byType(IconButton)),
-    );
+    await tester.drag(tile, const Offset(-500, 0));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Удалить').hitTestable());
     await tester.pumpAndSettle();
     expect(find.byType(AlertDialog), findsOneWidget);
   }
+
+  testWidgets('свайп показывает действие, но сам не удаляет', (tester) async {
+    await launch(tester);
+    expect(find.text('Удалить').hitTestable(), findsNothing);
+    final row = find.widgetWithText(ListTile, 'Повторить Navigator');
+    await tester.drag(row, const Offset(-500, 0));
+    await tester.pumpAndSettle();
+    expect(find.text('Удалить').hitTestable(), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
+    expect(find.byType(ListTile), findsNWidgets(2));
+    await tester.tap(find.text('Удалить').hitTestable());
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsOneWidget);
+    await tester.tap(find.text('Отмена'));
+    await tester.pumpAndSettle();
+    expect(row, findsOneWidget);
+  });
 
   testWidgets('добавление возвращает обрезанное название', (tester) async {
     await launch(tester);
